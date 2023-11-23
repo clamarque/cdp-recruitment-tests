@@ -9,10 +9,7 @@
   },
   "author": "clamarque",
   "license": "ISC",
-  "dependencies": {
-    "commander": "^6.0.0"
-  },
   "devDependencies": {
-    "jest": "^26.1.0"
+    "jest": "^29.7.0"
   }
 }

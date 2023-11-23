@@ -1,20 +1,19 @@
-const program = require('commander');
-const { filter, count } = require('./commands');
+const { count } = require("./services/count")
+const { filter } = require("./services/filter")
 
-program
-.version('0.0.1')
-.description('Command line Adeo Data')
+const args = process.argv.slice(2)
 
-program
-.command('filter <query>')
-.alias('f')
-.description('Filter a list of elements containing a pattern')
-.action(query => filter(query));
+if (args[0] == "filter") {
+    const query = args.slice(1).join(' ');
 
-program
-.command('count')
-.alias('c')
-.description('Count People and Animals')
-.action(() => count());
+    const filteredResults = filter(query);
 
-program.parse(process.argv)
+    console.log(JSON.stringify(filteredResults, null, 2))
+
+} else if (args[0] == "count") {
+    const countedResults = count()
+
+    console.log(JSON.stringify(countedResults, null, 2))
+} else {
+    console.log('Commande non reconnue');
+}
