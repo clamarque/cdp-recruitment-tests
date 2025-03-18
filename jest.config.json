@@ -1,4 +1,10 @@
 {
-    "testRegex": "((\\.|/*.)(spec))\\.js?$",
-    "collectCoverage": true
+  "testRegex": "((\\.|/*.)(spec|test))\\.js?$",
+  "collectCoverage": true,
+  "collectCoverageFrom": ["app.js", "services/**/*.js"],
+  "coverageDirectory": "coverage",
+  "coverageReporters": ["text", "lcov"],
+  "coveragePathIgnorePatterns": ["/node_modules/"],
+  "testEnvironment": "node",
+  "verbose": true
 }

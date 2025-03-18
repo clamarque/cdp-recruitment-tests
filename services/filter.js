@@ -1,40 +1,47 @@
-const { data } = require('../data/data')
+const { data } = require("../data/data")
 
 /**
  * Filter a list of elements containing a pattern
- * @param {string} query 
+ * @param {string} query
  * @returns {Array<Object>}
  */
 const filter = (query) => {
-    if (!query) {
-        return "no query provided"
-    }
-    
-    const filteredResults = data.reduce((acc, current) => {
-        const peopleWithFilteredAnimals = current.people.reduce((peopleAcc, person) => {
-            const filteredAnimals = person.animals.filter(animal => animal.name.includes(query));
-            if (filteredAnimals.length > 0) {
-                peopleAcc.push({
-                    name: person.name,
-                    animals: filteredAnimals.map(animal => ({ name: animal.name }))
-                });
-            }
-            return peopleAcc;
-        }, []);
+  if (!query) {
+    return "no query provided"
+  }
 
-        if (peopleWithFilteredAnimals.length > 0) {
-            acc.push({
-                name: current.name,
-                people: peopleWithFilteredAnimals
-            });
+  // Remove special characters
+  const cleanQuery = query.replace(/[^a-zA-Z0-9]/g, "")
+  const filteredResults = data.reduce((acc, current) => {
+    const peopleWithFilteredAnimals = current.people.reduce(
+      (peopleAcc, person) => {
+        const filteredAnimals = person.animals.filter((animal) =>
+          animal.name.replace(/[^a-zA-Z0-9]/g, "").includes(cleanQuery)
+        )
+        if (filteredAnimals.length > 0) {
+          peopleAcc.push({
+            name: person.name,
+            animals: filteredAnimals.map((animal) => ({ name: animal.name })),
+          })
         }
+        return peopleAcc
+      },
+      []
+    )
 
-        return acc;
-    }, []);
+    if (peopleWithFilteredAnimals.length > 0) {
+      acc.push({
+        name: current.name,
+        people: peopleWithFilteredAnimals,
+      })
+    }
 
-    return filteredResults.length ? filteredResults : "no results found";
-};
+    return acc
+  }, [])
+
+  return filteredResults.length ? filteredResults : "no results found"
+}
 
 module.exports = {
-    filter
-  }
+  filter,
+}
